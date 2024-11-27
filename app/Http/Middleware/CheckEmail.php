@@ -5,6 +5,7 @@ namespace BookStack\Http\Middleware;
 use BookStack\Access\EmailConfirmationService;
 use BookStack\Users\Models\User;
 use Closure;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Check that the user's email address is confirmed.
@@ -17,13 +18,10 @@ use Closure;
  * Ideally we'd simply invalidate all existing sessions upon update but that has
  * proven to be a lot more difficult than expected.
  */
-class CheckEmailConfirmed
+class CheckEmail
 {
-    protected $confirmationService;
-
-    public function __construct(EmailConfirmationService $confirmationService)
+    public function __construct()
     {
-        $this->confirmationService = $confirmationService;
     }
 
     /**
@@ -38,10 +36,9 @@ class CheckEmailConfirmed
     {
         /** @var User $user */
         $user = auth()->user();
-        if (auth()->check() && !$user->email_confirmed && $this->confirmationService->confirmationRequired() && !empty($user->email)) {
-            auth()->logout();
-
-            return redirect()->to('/');
+        Log::info("no email found for user: " . $user->name, ["user" => $user, "request" => $request->path()]);
+        if (auth()->check() && empty($user->email)) {
+            return redirect()->to('/my-account/auth/set-email');
         }
 
         return $next($request);

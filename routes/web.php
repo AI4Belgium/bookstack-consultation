@@ -26,7 +26,8 @@ Route::get('/licenses', [MetaController::class, 'licenses']);
 Route::get('/opensearch.xml', [MetaController::class, 'opensearch']);
 
 // Authenticated routes...
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'has-email'])->group(function () {
+// Route::middleware(['auth'])->group(function () {
 
     // Secure images routing
     Route::get('/uploads/images/{path}', [UploadControllers\ImageController::class, 'showImage'])
@@ -320,6 +321,11 @@ Route::post('/register/confirm/resend', [AccessControllers\ConfirmEmailControlle
 Route::get('/register/confirm/{token}', [AccessControllers\ConfirmEmailController::class, 'showAcceptForm']);
 Route::post('/register/confirm/accept', [AccessControllers\ConfirmEmailController::class, 'confirm'])->middleware('throttle:public');
 Route::post('/register', [AccessControllers\RegisterController::class, 'postRegister'])->middleware('throttle:public');
+
+Route::middleware(['auth'])->group(function () {
+    Route::put('/my-account/auth/email', [UserControllers\UserAccountController::class, 'updateEmail']);
+    Route::get('/my-account/auth/set-email', [UserControllers\UserAccountController::class, 'showEmailForm']);
+});
 
 // SAML routes
 Route::post('/saml2/login', [AccessControllers\Saml2Controller::class, 'login']);

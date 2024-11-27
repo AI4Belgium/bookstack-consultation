@@ -12,6 +12,7 @@ use BookStack\Users\UserRepo;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Log;
 
 class UserAccountController extends Controller
 {
@@ -42,6 +43,18 @@ class UserAccountController extends Controller
         $this->setPageTitle(trans('preferences.profile'));
 
         return view('users.account.profile', [
+            'model' => user(),
+            'category' => 'profile',
+        ]);
+    }
+
+    public function showEmailForm()
+    {
+        Log::info('showEmailForm');
+        // TODO
+        $this->setPageTitle(trans('preferences.profile'));
+
+        return view('users.account.email', [
             'model' => user(),
             'category' => 'profile',
         ]);
@@ -196,6 +209,30 @@ class UserAccountController extends Controller
         $this->showSuccessNotification(trans('preferences.auth_change_password_success'));
 
         return redirect('/my-account/auth');
+    }
+
+    /**
+     * Handle the submission updating the user email.
+     */
+    public function updateEmail(Request $request)
+    {
+        Log::info('updateEmail');
+        $this->preventAccessInDemoMode();
+
+        $user = user();
+
+        $validated = $this->validate($request, [
+            'email'         => ['min:2', 'email', 'unique:users,email,' . $user->id],
+            'email-confirm' => ['same:email', 'required_with:email'],
+        ]);
+
+        Log::info('updateEmail validated: ', context: $validated);
+
+        $this->userRepo->update($user, $validated, manageUsersAllowed: empty($user->email));
+
+        $this->showSuccessNotification(trans('preferences.auth_change_password_success'));
+
+        return redirect('/');
     }
 
     /**

@@ -11,6 +11,7 @@ use BookStack\Users\Models\User;
 use BookStack\Users\UserRepo;
 use Exception;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class RegistrationService
 {
@@ -108,7 +109,7 @@ class RegistrationService
         Theme::dispatch(ThemeEvents::AUTH_REGISTER, $authSystem, $newUser);
 
         // Start email confirmation flow if required
-        if ($this->emailConfirmationService->confirmationRequired() && !$emailConfirmed) {
+        if ($this->emailConfirmationService->confirmationRequired() && !$emailConfirmed && !empty($newUser->email)) {
             $newUser->save();
 
             try {

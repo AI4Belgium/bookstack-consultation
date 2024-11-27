@@ -7,6 +7,7 @@ use BookStack\Exceptions\SamlException;
 use BookStack\Exceptions\StoppedAuthenticationException;
 use BookStack\Exceptions\UserRegistrationException;
 use BookStack\Users\Models\User;
+use Illuminate\Support\Facades\Log;
 use Exception;
 use OneLogin\Saml2\Auth;
 use OneLogin\Saml2\Constants;
@@ -276,6 +277,8 @@ class Saml2Service
         $defaultEmail = filter_var($samlID, FILTER_VALIDATE_EMAIL) ? $samlID : null;
         $email = $this->getSamlResponseAttribute($samlAttributes, $emailAttr, $defaultEmail);
 
+        Log::debug('login', ['email' => $email, 'external_id' => $externalId]);
+
         return [
             'external_id' => $externalId,
             'name'        => $this->getUserDisplayName($samlAttributes, $externalId),
@@ -357,9 +360,9 @@ class Saml2Service
             ]);
         }
 
-        if ($userDetails['email'] === null) {
-            throw new SamlException(trans('errors.saml_no_email_address'));
-        }
+        // if ($userDetails['email'] === null) {
+        //     throw new SamlException(trans('errors.saml_no_email_address'));
+        // }
 
         if ($isLoggedIn) {
             throw new SamlException(trans('errors.saml_already_logged_in'), '/login');
@@ -367,7 +370,7 @@ class Saml2Service
 
         $user = $this->registrationService->findOrRegister(
             $userDetails['name'],
-            $userDetails['email'],
+            $userDetails['email'] ?? '',
             $userDetails['external_id']
         );
 
