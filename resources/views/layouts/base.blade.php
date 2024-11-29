@@ -43,6 +43,13 @@
 
     <!-- Translations for JS -->
     @stack('translations')
+    <script src="https://cdn.tailwindcss.com" nonce="{{ $cspNonce }}"></script>
+    <script nonce="{{ $cspNonce }}">
+        tailwind.config = {
+            prefix: 'tw-'
+        }
+    </script>
+
 </head>
 <body
     @if(setting()->getForCurrentUser('ui-shortcuts-enabled', false))

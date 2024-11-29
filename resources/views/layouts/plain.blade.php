@@ -15,6 +15,13 @@
     <!-- Custom Styles & Head Content -->
     @include('layouts.parts.custom-styles')
     @include('layouts.parts.custom-head')
+
+    <script src="https://cdn.tailwindcss.com" nonce="{{ $cspNonce }}"></script>
+    <script nonce="{{ $cspNonce }}">
+        tailwind.config = {
+            prefix: 'tw-'
+        }
+    </script>
 </head>
 <body>
     @yield('content')

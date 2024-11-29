@@ -6,6 +6,7 @@ use BookStack\Access\Saml2Service;
 use BookStack\Http\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class Saml2Controller extends Controller
 {
@@ -22,7 +23,7 @@ class Saml2Controller extends Controller
     {
         $loginDetails = $this->samlService->login();
         session()->flash('saml2_request_id', $loginDetails['id']);
-
+        Log::info('loginDetails: ' . json_encode($loginDetails));
         return redirect($loginDetails['url']);
     }
 
@@ -122,6 +123,7 @@ class Saml2Controller extends Controller
 
             return redirect('/login');
         }
+        Log::info('processAcs success: ', context: [ 'user' => $user->toArray() ]);
 
         return redirect()->intended();
     }

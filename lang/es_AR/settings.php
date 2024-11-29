@@ -335,5 +335,12 @@ return [
         'zh_CN' => 'Chino mandarín',
         'zh_TW' => 'Chino tradicional',
     ],
+    'account_type' => [
+        'citizen' => 'Citizen',
+        'civil_society' => 'Civil Society',
+        'private_sector' => 'Private sector',
+        'public_sector' => 'Public sector',
+        'academic'=> 'Academic',
+    ],
     //!////////////////////////////////
 ];

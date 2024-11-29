@@ -67,7 +67,9 @@
 
             </div>
 
-            <div class="form-group text-right">
+            @include('users.account.parts.segmentation', ['showLanguage' => false])
+
+            <div class="form-group text-right mt-l">
                 <a href="{{ url('/my-account/delete') }}" class="button outline">{{ trans('preferences.delete_account') }}</a>
                 <button class="button">{{ trans('common.save') }}</button>
             </div>

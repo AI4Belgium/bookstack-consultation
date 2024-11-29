@@ -335,5 +335,12 @@ Hinweis: Benutzer kÃ¶nnen ihre E-Mail Adresse nach erfolgreicher Registrierung Ã
         'zh_CN' => 'Vereinfachtes Chinesisch',
         'zh_TW' => 'Traditionelles Chinesisch',
     ],
+    'account_type' => [
+        'citizen' => 'Citizen',
+        'civil_society' => 'Civil Society',
+        'private_sector' => 'Private sector',
+        'public_sector' => 'Public sector',
+        'academic'=> 'Academic',
+    ],
     //!////////////////////////////////
 ];

@@ -8,15 +8,7 @@ use Closure;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Check that the user's email address is confirmed.
- *
- * As of v21.08 this is technically not required but kept as a prevention
- * to log out any users that may be logged in but in an "awaiting confirmation" state.
- * We'll keep this for a while until it'd be very unlikely for a user to be upgrading from
- * a pre-v21.08 version.
- *
- * Ideally we'd simply invalidate all existing sessions upon update but that has
- * proven to be a lot more difficult than expected.
+ * Check that the user's email address is set
  */
 class CheckEmail
 {
@@ -36,8 +28,8 @@ class CheckEmail
     {
         /** @var User $user */
         $user = auth()->user();
-        Log::info("no email found for user: " . $user->name, ["user" => $user, "request" => $request->path()]);
         if (auth()->check() && empty($user->email)) {
+            Log::debug("no email found for user: " . $user->name, ["user" => $user, "request" => $request->path()]);
             return redirect()->to('/my-account/auth/set-email');
         }
 

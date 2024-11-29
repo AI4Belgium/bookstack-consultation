@@ -54,7 +54,7 @@ class UserAccountController extends Controller
         // TODO
         $this->setPageTitle(trans('preferences.profile'));
 
-        return view('users.account.email', [
+        return view('users.account.profile-segmentation', [
             'model' => user(),
             'category' => 'profile',
         ]);

@@ -334,5 +334,21 @@ return [
         'zh_CN' => '简体中文 (Chinees)',
         'zh_TW' => '繁體中文 (Traditioneel Chinees)',
     ],
+    'account_type' => [
+        'citizen' => 'Burger',
+        'civil_society' => 'Maatschappelijke organisatie',
+        'private_sector' => 'Private sector',
+        'public_sector' => 'Publieke sector',
+        'academic'=> 'Academisch',
+    ],
+
+    'region_name' => 'Regio',
+    'regions' => [
+        'bxl' => 'Brussel',
+        'vlg' => 'Vlaanderen',
+        'wl' => 'Wallonië',
+    ],
+
+    'job_role' => 'Functie',
     //!////////////////////////////////
 ];
