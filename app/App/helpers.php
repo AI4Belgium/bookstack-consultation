@@ -128,3 +128,17 @@ function sortUrl(string $path, array $data, array $overrideData = []): string
 
     return url($path . '?' . implode('&', $queryStringSections));
 }
+
+function getValFromUserSettingOrOld(string $key, bool $isArray = false, mixed $default = null): Mixed {
+    $wrongDefaultVal = '%%%%###$$$$%%%%####******@@@#@%#@!';
+    $settingsVal = setting()->getForCurrentUser($key, $wrongDefaultVal);
+    if ($settingsVal === $wrongDefaultVal) return old($key, $default);
+    if ($isArray) {
+        try {
+            return json_decode($settingsVal);
+        } catch (Exception $e) {
+            return [];
+        }
+    }
+    return $settingsVal;
+}

@@ -48,16 +48,94 @@ class UserAccountController extends Controller
         ]);
     }
 
-    public function showEmailForm()
+    public function showSegmentationForm()
     {
-        Log::info('showEmailForm');
-        // TODO
+        Log::debug('showSegmentationForm');
         $this->setPageTitle(trans('preferences.profile'));
 
         return view('users.account.profile-segmentation', [
             'model' => user(),
             'category' => 'profile',
         ]);
+    }
+
+    public function showMyAccountSegmentationForm()
+    {
+        Log::debug('showMyAccountSegmentationForm');
+        $this->setPageTitle(trans('preferences.profile'));
+
+        return view('users.account.segmentation', [
+            'model' => user(),
+            'category' => 'profile',
+        ]);
+    }
+
+    public function updateSegmentationProfile(Request $request)
+    {
+        $this->preventAccessInDemoMode();
+
+        $data = $request->all();
+        Log::debug('data', $data);
+
+        $user = user();
+        $rules = [
+            'join_as'                        => ['string', 'in:'.implode(',', array_keys(trans('segmentation.join_as_values')))],
+            'first_name'                     => ['string', 'min:2', 'max:100'],
+            'last_name'                      => ['string', 'min:2', 'max:100'],
+            'email'                          => ['string', 'min:2', 'email', 'unique:users,email,' . $user->id],
+            'language'                       => ['string', 'max:15', 'alpha_dash'],
+            'country'                        => ['string', 'in:'.implode(',', array_keys(trans('segmentation.country_values')))],
+            'region'                         => ['string', 'in:'.implode(',', array_keys(trans('segmentation.region_values')))],
+            'city'                           => ['string', 'min:2', 'max:100'],
+            'is_expert'                      => ['boolean'],
+            'user_profile'                   => ['string', 'required_if:is_org,0' ,'in:'.implode(',', array_keys(trans('segmentation.profile_values')))],
+            'is_org'                         => ['boolean', 'required'],
+            'become_member'                  => ['boolean'],
+            'job_role'                       => ['string', 'required_if_accepted:is_org', 'min:2', 'max:100'],
+            'org_name'                       => ['string', 'required_if_accepted:is_org', 'min:2', 'max:200'],
+            'founded'                        => ['integer', 'required_if_accepted:is_org', 'min:300', 'max:' . date('Y')],
+            'vat'                            => ['string', 'required_if_accepted:is_org', 'regex:/^BE0[1-9][0-9]{7}$|^0[1-9][0-9]{7}$/'],
+            'org_profile'                    => ['string', 'required_if_accepted:is_org', 'in:'.implode(',', array_keys(trans('segmentation.organisation.profile_values')))],
+            'nb_employees'                   => ['string', 'required_if_accepted:is_org', 'in:'.implode(',', array_keys(trans('segmentation.organisation.number_of_employees_values')))],
+            'my_org'                         => ['string', 'required_if_accepted:is_org', 'in:'.implode(',', array_keys(trans('segmentation.my_organisation_values')))],
+            'expertise_domain'               => ['array', 'required_if_accepted:is_org,is_expert'],
+            'expertise_domain.*'             => ['in:'.implode(',', array_keys(trans('segmentation.expertise_domain_values')))],
+            'non_technical_expertise_domains'=> ['array', 'required_if_accepted:is_org,is_expert'],
+            'non_technical_expertise_domains.*' => ['in:'.implode(',', array_keys(trans('segmentation.non_technical_expertise_domains_values')))],
+            'application_sectors'            => ['array', 'required_if_accepted:is_org,is_expert'],
+            'application_sectors.*'          => ['in:'.implode(',', array_keys(trans('segmentation.application_sectors_values')))],
+            'application_fields'             => ['array', 'required_if_accepted:is_org,is_expert'],
+            'application_fields.*'           => ['in:'.implode(',', array_keys(trans('segmentation.application_fields_values')))],
+            'expertise_status'               => ['string','required_if_accepted:is_org,is_expert', 'in:'.implode(',', array_keys(trans('segmentation.expertise_status_values')))],
+        ];
+        // Log::debug('rules', $rules);
+        $validated = $this->validate($request, $rules);
+
+        if (!empty($validated['email']) && $validated['email'] !== $user->email) {
+            $user->email = $validated['email'];
+            $user->save();
+        }
+        if (!empty($validated['first_name'] && !empty($validated['last_name']))) {
+            $user->name = $validated['first_name'] . ' ' . $validated['last_name'];
+            $user->save();
+        }
+        if (!array_key_exists('become_member', $validated)) $validated['become_member'] = 0;
+        if (!array_key_exists('is_expert', $validated) && $validated['is_org'] == '0') $validated['is_expert'] = 0;
+
+        foreach ($validated as $k => $v) {
+            if ($k === 'email') continue;
+            if (is_array($v)) {
+                $v = json_encode($v);
+            }
+            if ($k === 'is_org' && $v === '1') {
+                setting()->removeForCurrentUser(key: 'is_expert');
+            }
+            setting()->putForCurrentUser($k, $v);
+        }
+
+        Log::debug( 'updateSegmentationProfile validated: ', context: $validated);
+
+        return redirect('/');
     }
 
     /**

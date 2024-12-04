@@ -1,14 +1,20 @@
 <?php
-/**
- * Settings text strings
- * Contains all text strings used in the general settings sections of BookStack
- * including users and roles.
- */
 return [
-    'join_as' => 'Je souhaite contribuer en tant que:',
+    'title' => 'Segmentation',
+    'join_as' => 'Je souhaite contribuer en tant que',
     'join_as_values' =>[
         'organisation' => 'Organisation',
         'citizen' => 'Citoyen',
+    ],
+
+    'last_name' => 'Nom',
+    'first_name' => 'Prénom',
+
+    'language' => 'Langue',
+    'language_values' => [
+        'fr' => 'Français',
+        'en' => 'Anglais',
+        'nl' => 'Néerlandais',
     ],
 
     'country' => 'Pays',
@@ -211,14 +217,40 @@ return [
     ],
     'city' => 'Ville',
 
-    'profile' => [
-        'citizen'         => 'Citoyen',
-        'civil_society'   => 'Soceité civile',
-        'private_sector'  => 'Secteur privé',
-        'public_sector'   => 'Secteur public',
+    'personal_info' => 'Informations personnelles',
+
+    'profile' => 'Profil',
+    'profile_values' => [
         'academic'        => 'Académique',
         'research'        => 'Chercheur',
         'crypto_investor' => 'Citoyen ou investisseur en crypto',
+        'civil_society'   => 'Société civile',
+        'private_sector'  => 'Secteur privé',
+        'public_sector'   => 'Secteur public',
+    ],
+
+    'organisation' => [
+        'info' => 'Informations sur votre organisation',
+        'name' => 'Nom de l\'organisation',
+        'vat' => 'Numéro de TVA',
+        'founded' => 'Fondée en (année)',
+        'number_of_employees' => 'Nombre d\'employés',
+        'number_of_employees_values' => [
+            'less_than_10'        => '< 10',
+            'between_10_and_49'   => '10 - 49',
+            'between_50_and_199'  => '50 - 199',
+            'between_200_and_499' => '200 - 499',
+            'more_than_500'       => '> 500',
+        ],
+        'profile' => 'Profil',
+        'profile_values' => [
+            'civil_society'   => 'Société civile',
+            'private_sector'  => 'Secteur privé',
+            'public_sector'   => 'Secteur public',
+            'academic'        => 'Hautes écoles et universités',
+            'research'        => 'Recherche',
+        ],
+        'site' => 'Site web',
     ],
 
     'is_expert' => 'Je suis un expert dans le domaine de la Blockchain et du Web 3',
@@ -226,16 +258,7 @@ return [
 
     'expertise_info' => 'Informations sur votre expertise',
 
-    'number_of_employees' => 'Nombre d\'employés',
-    'number_of_employees_values' => [
-        'less_than_10'        => '< 10',
-        'between_10_and_49'   => '10 - 49',
-        'between_50_and_199'  => '50 - 199',
-        'between_200_and_499' => '200 - 499',
-        'more_than_500'       => '> 500',
-    ],
-
-    'my_organisation' => 'Mon organisation is',
+    'my_organisation' => 'Mon organisation est',
     'my_organisation_values' => [
         'blockchain_product_developer'            => 'Développeur de produits Blockchain ou Web 3',
         'blockchain_service_provider_technical'   => 'Fournisseur de services Blockchain ou Web 3 : Développement technique et intégration',
@@ -379,7 +402,7 @@ return [
         'business_intelligence'   => 'Business intelligence',
     ],
 
-    'region_title' => 'Région',
+    'region' => 'Région',
     'region_values' => [
         'bxl' => 'Bruxelles',
         'fl'  => 'Flandre',
@@ -387,5 +410,8 @@ return [
     ],
 
     'job_role' => 'Fonction exercée',
-    //!////////////////////////////////
+
+    'become_member' => 'Je m’engage à devenir membre de Blockchain4Belgium et partciper à la consultation national blockchain et web 3.',
+
+    'notice' => "Blockchain4belgium traite vos données à caractère personnel via le site du SPF BOSA. La gestion de ses membres se fait sur la base de la relation contractuelle résultant de la création de votre profil, par laquelle Blockchain4Belgium s'engage à vous informer périodiquement des évolutions et développements dans le domaine de la blockchain et à vous proposer de nouveaux produits ou services. Si vous souhaitez obtenir plus d'informations sur la manière dont nous traitons vos données personnelles, vous pouvez consulter notre déclaration de confidentialité. Si vous ne souhaitez pas que nous traitions vos données à des fins de marketing direct ou si vous souhaitez exercer vos autres droits, tels que le droit d'accès à vos données et, le cas échéant, les faire corriger ou supprimer, il vous suffit de nous en informer en envoyant un e-mail à blockchain4belgium@bosa.fgov.be. Il est possible que nous vous demandions de prouver votre identité."
 ];

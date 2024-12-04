@@ -279,9 +279,10 @@ class Saml2Service
         return [
             'external_id' => $externalId,
             'name'        => $this->getUserDisplayName($samlAttributes, $externalId),
-            // 'email'       => $email,
-            'email'       => '',
+            'email'       => $email,
             'saml_id'     => $samlID,
+            'first_name'  => $this->getSamlResponseAttribute($samlAttributes, 'givenName', ''),
+            'last_name'   => $this->getSamlResponseAttribute($samlAttributes, 'surname', ''),
         ];
     }
 
@@ -377,6 +378,18 @@ class Saml2Service
         }
 
         $this->loginService->login($user, 'saml2');
+
+        if (!is_null($user)) {
+            if (!empty($userDetails['name'])) {
+                setting()->putForCurrentUser('smal2_name', $userDetails['name']);
+            }
+            if (!empty($userDetails['first_name'])) {
+                setting()->putForCurrentUser('first_name', $userDetails['first_name']);
+            }
+            if (!empty($userDetails['last_name'])) {
+                setting()->putForCurrentUser('last_name', $userDetails['last_name']);
+            }
+        }
 
         return $user;
     }

@@ -26,7 +26,7 @@ Route::get('/licenses', [MetaController::class, 'licenses']);
 Route::get('/opensearch.xml', [MetaController::class, 'opensearch']);
 
 // Authenticated routes...
-Route::middleware(['auth', 'has-email', 'has-profile'])->group(function () {
+Route::middleware(['auth', 'has-segmentation'])->group(function () {
 // Route::middleware(['auth'])->group(function () {
 
     // Secure images routing
@@ -311,12 +311,15 @@ Route::post('/register', [AccessControllers\RegisterController::class, 'postRegi
 
 // User account routes for authenticated users without email set or profile
 Route::middleware(['auth'])->group(function () {
+    Route::post('/segmentation', [UserControllers\UserAccountController::class, 'updateSegmentationProfile']);
+    Route::put('/segmentation', [UserControllers\UserAccountController::class, 'updateSegmentationProfile']);
     Route::put('/my-account/auth/email', [UserControllers\UserAccountController::class, 'updateEmail']);
-    Route::get('/my-account/auth/set-email', [UserControllers\UserAccountController::class, 'showEmailForm']);
+    Route::get('/segmentation', [UserControllers\UserAccountController::class, 'showSegmentationForm']);
     // User Account
     Route::get('/my-account', [UserControllers\UserAccountController::class, 'redirect']);
     Route::get('/my-account/profile', [UserControllers\UserAccountController::class, 'showProfile']);
     Route::put('/my-account/profile', [UserControllers\UserAccountController::class, 'updateProfile']);
+    Route::get('/my-account/segmentation)', [UserControllers\UserAccountController::class, 'showMyAccountSegmentationForm']);
     Route::get('/my-account/shortcuts', [UserControllers\UserAccountController::class, 'showShortcuts']);
     Route::put('/my-account/shortcuts', [UserControllers\UserAccountController::class, 'updateShortcuts']);
     Route::get('/my-account/notifications', [UserControllers\UserAccountController::class, 'showNotifications']);
