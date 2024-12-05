@@ -4,6 +4,7 @@ namespace BookStack\Translation;
 
 use BookStack\Users\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class LocaleManager
 {
@@ -76,7 +77,7 @@ class LocaleManager
     {
         $default = config('app.default_locale');
 
-        if ($user->isGuest() && config('app.auto_detect_locale')) {
+        if ($user->isGuest() && config('app.auto_detect_locale') && !setting()->getUser($user, 'language')) {
             return $this->autoDetectLocale(request(), $default);
         }
 
@@ -120,5 +121,14 @@ class LocaleManager
     public function getAllAppLocales(): array
     {
         return array_keys($this->localeMap);
+    }
+
+    public function getLocalDefinition(string $localeString): LocaleDefinition
+    {
+        return new LocaleDefinition(
+            $localeString,
+            $this->localeMap[$localeString] ?? $localeString,
+            in_array($localeString, $this->rtlLocales),
+        );
     }
 }

@@ -1,6 +1,11 @@
 <header id="header" component="header-mobile-toggle" class="primary-background px-xl grid print-hidden">
     <div class="flex-container-row justify-space-between gap-s items-center">
-        @include('layouts.parts.header-logo')
+        <div class="tw-flex tw-items-center tw-gap-1">
+            @include('layouts.parts.header-logo')
+            <a href="/update-lang/en" class="{{app()->getLocale() === 'en' ? 'tw-underline' : ''}}" >En</a>
+            <a href="/update-lang/fr" class="{{app()->getLocale() === 'fr' ? 'tw-underline' : ''}}" >Fr</a>
+            <a href="/update-lang/nl"class="{{app()->getLocale() === 'nl' ? 'tw-underline' : ''}}" >nl</a>
+        </div>
         <div class="hide-over-l py-s">
             <button type="button"
                     refs="header-mobile-toggle@toggle"

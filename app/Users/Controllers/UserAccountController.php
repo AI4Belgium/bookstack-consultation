@@ -13,6 +13,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redirect;
 
 class UserAccountController extends Controller
 {
@@ -136,6 +137,21 @@ class UserAccountController extends Controller
         Log::debug( 'updateSegmentationProfile validated: ', context: $validated);
 
         return redirect('/');
+    }
+
+    public function updateLanguage (Request $request, string $language): Mixed  {
+        $request->merge(['language' => $language]);
+        Log::debug('language request', context: $request->all());
+        $user = user();
+        $validated = $this->validate($request, [
+            'language'         => ['string', 'max:15', 'alpha_dash'],
+        ]);
+
+        Log::debug('language update', context: $validated);
+
+        $this->userRepo->update($user, $validated, false);
+
+        return Redirect::back();
     }
 
     /**
