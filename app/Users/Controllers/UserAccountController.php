@@ -51,7 +51,6 @@ class UserAccountController extends Controller
 
     public function showSegmentationForm()
     {
-        Log::debug('showSegmentationForm');
         $this->setPageTitle(trans('preferences.profile'));
 
         return view('users.account.profile-segmentation', [
@@ -62,7 +61,6 @@ class UserAccountController extends Controller
 
     public function showMyAccountSegmentationForm()
     {
-        Log::debug('showMyAccountSegmentationForm');
         $this->setPageTitle(trans('preferences.profile'));
 
         return view('users.account.segmentation', [

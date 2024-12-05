@@ -276,8 +276,6 @@ Route::middleware(['auth', 'has-segmentation'])->group(function () {
     Route::post('/settings/{category}', [SettingControllers\SettingController::class, 'update']);
 });
 
-Route::get('/update-lang/{language}', [HomeController::class, 'updateLanguage']);
-
 // MFA routes
 Route::middleware('mfa-setup')->group(function () {
     Route::get('/mfa/setup', [AccessControllers\MfaController::class, 'setup']);

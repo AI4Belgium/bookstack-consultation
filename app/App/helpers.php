@@ -4,6 +4,7 @@ use BookStack\App\Model;
 use BookStack\Permissions\PermissionApplicator;
 use BookStack\Settings\SettingService;
 use BookStack\Users\Models\User;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Get the path to a versioned file.
@@ -127,6 +128,18 @@ function sortUrl(string $path, array $data, array $overrideData = []): string
     }
 
     return url($path . '?' . implode('&', $queryStringSections));
+}
+
+function addQueryParamToUrl(string $key, string $value): string
+{
+    $parsedUrl = parse_url(url()->full());
+    // Log::debug('url', ['key'=> $key,'value'=> $value, 'current'=> url()->current(), 'parsed' => $parsedUrl]);
+    $query = $parsedUrl['query'] ?? '';
+    parse_str($query, $queryParams);
+    $queryParams[$key] = $value;
+    $queryString = http_build_query($queryParams);
+    $url = url()->current() . '?' . $queryString;
+    return $url;
 }
 
 function getValFromUserSettingOrOld(string $key, bool $isArray = false, mixed $default = null): Mixed {

@@ -117,26 +117,4 @@ class HomeController extends Controller
 
         return view('home.default', $commonData);
     }
-
-    public function updateLanguage (Request $request, string $language): Mixed  {
-        $user = user();
-        $request->merge(['language' => $language]);
-        $validated = $this->validate($request, [
-            'language' => ['string', 'max:15', 'alpha_dash']
-        ]);
-
-        $lang = $validated['language'];
-
-        if ($user->isGuest()) {
-            $localDefintion = $this->localeManager->getLocalDefinition($lang);
-            view()->share('locale', $localDefintion);
-            app()->setLocale($lang);
-            setting()->putUser($user, 'language', $lang);
-            return Redirect::back();
-        }
-
-        $this->userRepo->update($user, $validated, false);
-
-        return Redirect::back();
-    }
 }

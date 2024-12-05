@@ -2,9 +2,9 @@
     <div class="flex-container-row justify-space-between gap-s items-center">
         <div class="tw-flex tw-items-center tw-gap-1">
             @include('layouts.parts.header-logo')
-            <a href="/update-lang/en" class="{{app()->getLocale() === 'en' ? 'tw-underline' : ''}}" >En</a>
-            <a href="/update-lang/fr" class="{{app()->getLocale() === 'fr' ? 'tw-underline' : ''}}" >Fr</a>
-            <a href="/update-lang/nl"class="{{app()->getLocale() === 'nl' ? 'tw-underline' : ''}}" >nl</a>
+            @foreach(['en', 'fr', 'nl'] as $locale)
+                <a href="{{ addQueryParamToUrl('lang', $locale) }}" class="tw-capitalize {{ app()->getLocale() === $locale ? 'tw-underline' : '' }}">{{ $locale }}</a>
+            @endforeach
         </div>
         <div class="hide-over-l py-s">
             <button type="button"

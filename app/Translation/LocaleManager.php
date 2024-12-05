@@ -77,6 +77,7 @@ class LocaleManager
     {
         $default = config('app.default_locale');
 
+        // Log::debug('getLocaleForUser', ['user' => $user, 'val' => setting()->getUser($user, 'language')]);
         if ($user->isGuest() && config('app.auto_detect_locale') && !setting()->getUser($user, 'language')) {
             return $this->autoDetectLocale(request(), $default);
         }
