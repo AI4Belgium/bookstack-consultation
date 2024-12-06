@@ -367,10 +367,13 @@ class Saml2Service
             throw new SamlException(trans('errors.saml_already_logged_in'), '/login');
         }
 
+        $email = $userDetails['email'];
+
         $user = $this->registrationService->findOrRegister(
             $userDetails['name'],
-            isset($userDetails['email']) ? $userDetails['email'] : '',
-            $userDetails['external_id']
+            isset($email) ? $email : '',
+            $userDetails['external_id'],
+            !empty($email) && preg_match('/@.*\./', $email)
         );
 
         if ($this->shouldSyncGroups()) {

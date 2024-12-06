@@ -51,7 +51,7 @@ class RegistrationService
      *
      * @throws UserRegistrationException
      */
-    public function findOrRegister(string $name, string $email, string $externalId): User
+    public function findOrRegister(string $name, string $email, string $externalId, bool $emailConfirmed = false): User
     {
         $user = User::query()
             ->where('external_auth_id', '=', $externalId)
@@ -65,7 +65,7 @@ class RegistrationService
                 'external_auth_id' => $externalId,
             ];
 
-            $user = $this->registerUser($userData, null, false);
+            $user = $this->registerUser($userData, null,  emailConfirmed: $emailConfirmed);
         }
 
         return $user;
