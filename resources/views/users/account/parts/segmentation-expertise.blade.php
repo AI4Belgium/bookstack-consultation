@@ -6,7 +6,7 @@
         @endforeach
     </select>
     @include('users.account.parts.error', ['name' => 'expertise_domain'])
-     {{ print_r(setting()->getForCurrentUser('expertise_domain'), true) }}
+     <!-- {{ print_r(setting()->getForCurrentUser('expertise_domain'), true) }} -->
 </div>
 
 <div class="tw-relative">

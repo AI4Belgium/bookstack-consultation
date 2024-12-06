@@ -211,15 +211,16 @@ return [
     ],
     'city' => 'Ville',
 
-    'profile' => [
-        'citizen'         => 'Citoyen',
-        'civil_society'   => 'Soceité civile',
-        'private_sector'  => 'Secteur privé',
-        'public_sector'   => 'Secteur public',
+    'profile' => 'Profil',
+    'profile_values' => [
         'academic'        => 'Académique',
         'research'        => 'Chercheur',
         'crypto_investor' => 'Citoyen ou investisseur en crypto',
+        'civil_society'   => 'Société civile',
+        'private_sector'  => 'Secteur privé',
+        'public_sector'   => 'Secteur public',
     ],
+
 
     'is_expert' => 'Je suis un expert dans le domaine de la Blockchain et du Web 3',
     'is_expert_notice' => 'Si vous cochez cette case, nous vous demandons de compléter les informations relatives à votre expertise.',
