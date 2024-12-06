@@ -5,7 +5,7 @@
 @stop
 
 @section('left')
-    @if($recents)
+    <!-- @if($recents)
         <div id="recents" class="mb-xl">
             <h5>{{ trans('entities.recently_viewed') }}</h5>
             @include('entities.list', ['entities' => $recents, 'style' => 'compact'])
@@ -28,7 +28,7 @@
         @else
             <p class="text-muted pb-l mb-none">{{ trans('entities.books_new_empty') }}</p>
         @endif
-    </div>
+    </div> -->
 @stop
 
 @section('right')

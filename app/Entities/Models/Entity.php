@@ -23,6 +23,7 @@ use BookStack\Search\SearchIndex;
 use BookStack\Search\SearchTerm;
 use BookStack\Users\Models\HasCreatorAndUpdater;
 use BookStack\Users\Models\HasOwner;
+use BookStack\Users\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -160,9 +161,13 @@ abstract class Entity extends Model implements Sluggable, Favouritable, Viewable
     /**
      * Get the comments for an entity.
      */
-    public function comments(bool $orderByCreated = true): MorphMany
+    public function comments(bool $orderByCreated = true, User $user = null): MorphMany
     {
         $query = $this->morphMany(Comment::class, 'entity');
+        // limit users to only see their own comments
+        if (!empty($user) && !empty($user->id)) {
+            $query->where('created_by', $user->id);
+        }
 
         return $orderByCreated ? $query->orderBy('created_at', 'asc') : $query;
     }

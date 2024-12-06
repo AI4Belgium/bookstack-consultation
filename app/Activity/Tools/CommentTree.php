@@ -101,11 +101,14 @@ class CommentTree
 
     protected function loadComments(): array
     {
-        if (!$this->enabled()) {
+        $user = user();
+        if (!$this->enabled() || $user->isGuest()) {
             return [];
         }
 
-        return $this->page->comments()
+        $isAdmin = $user->hasSystemRole('admin');
+
+        return $this->page->comments(true, $isAdmin ? null : $user)
             ->with('createdBy')
             ->get()
             ->all();

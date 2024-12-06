@@ -31,6 +31,7 @@ return [
     'social_login' => 'Connexion avec un réseau social',
     'social_registration' => 'Inscription avec un réseau social',
     'social_registration_text' => 'S\'inscrire et se connecter avec un réseau social.',
+    'login_and_download' => 'Se connecter & Télécharger',
 
     'register_thanks' => 'Merci pour votre inscription !',
     'register_confirm' => 'Vérifiez vos e-mails et cliquez sur le lien de confirmation pour rejoindre :appName.',

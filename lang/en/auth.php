@@ -31,6 +31,7 @@ return [
     'social_login' => 'Social Login',
     'social_registration' => 'Social Registration',
     'social_registration_text' => 'Register and sign in using another service.',
+    'login_and_download' => 'Login with :socialDriver & Download',
 
     'register_thanks' => 'Thanks for registering!',
     'register_confirm' => 'Please check your email and click the confirmation button to access :appName.',

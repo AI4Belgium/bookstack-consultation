@@ -19,11 +19,15 @@ class Saml2Controller extends Controller
     /**
      * Start the login flow via SAML2.
      */
-    public function login()
+    public function login(Request $request)
     {
+        $isDownload = $request->get('isDownload', false);
+        if ($isDownload === '1' || $isDownload === 'true' || $isDownload === true) $isDownload = true;
+
+        Log::debug('processAcs: ', context: [ 'isDownload' => $isDownload ]);
         $loginDetails = $this->samlService->login();
         session()->flash('saml2_request_id', $loginDetails['id']);
-        Log::info('loginDetails: ' . json_encode($loginDetails));
+        session()->flash('saml2_is_download', $isDownload);
         return redirect($loginDetails['url']);
     }
 
@@ -110,6 +114,9 @@ class Saml2Controller extends Controller
         } catch (\Exception $exception) {
         }
         $requestId = session()->pull('saml2_request_id', null);
+        $isDownload = session()->pull('saml2_is_download', false);
+
+        Log::debug('processAcs: ', context: ['requestId' => $requestId, 'isDownload' => $isDownload]);
 
         if (empty($acsId) || empty($samlResponse)) {
             $this->showErrorNotification(trans('errors.saml_fail_authed', ['system' => config('saml2.name')]));
