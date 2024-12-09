@@ -313,7 +313,7 @@ Route::post('/register', [AccessControllers\RegisterController::class, 'postRegi
 Route::middleware(['auth'])->group(function () {
     Route::post('/segmentation', [UserControllers\UserAccountController::class, 'updateSegmentationProfile']);
     Route::put('/segmentation', [UserControllers\UserAccountController::class, 'updateSegmentationProfile']);
-    Route::put('/my-account/auth/email', [UserControllers\UserAccountController::class, 'updateEmail']);
+    // Route::put('/my-account/auth/email', [UserControllers\UserAccountController::class, 'updateEmail']);
     Route::get('/segmentation', [UserControllers\UserAccountController::class, 'showSegmentationForm']);
     // User Account
     Route::get('/my-account', [UserControllers\UserAccountController::class, 'redirect']);

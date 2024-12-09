@@ -113,10 +113,8 @@ class Saml2Controller extends Controller
             $samlResponse = decrypt(cache()->pull($cacheKey));
         } catch (\Exception $exception) {
         }
-        $requestId = session()->pull('saml2_request_id', null);
-        $isDownload = session()->pull('saml2_is_download', false);
 
-        Log::debug('processAcs: ', context: ['requestId' => $requestId, 'isDownload' => $isDownload]);
+        $requestId = session()->pull('saml2_request_id', null);
 
         if (empty($acsId) || empty($samlResponse)) {
             $this->showErrorNotification(trans('errors.saml_fail_authed', ['system' => config('saml2.name')]));
@@ -130,8 +128,7 @@ class Saml2Controller extends Controller
 
             return redirect('/login');
         }
-        Log::info('processAcs success: ', context: [ 'user' => $user->toArray() ]);
-
+        session()->keep(['saml2_is_download']);
         return redirect()->intended();
     }
 }

@@ -73,6 +73,8 @@ class UserAccountController extends Controller
     {
         $this->preventAccessInDemoMode();
 
+        session()->keep(['saml2_is_download']);
+
         $data = $request->all();
         Log::debug('data', $data);
 
@@ -134,7 +136,9 @@ class UserAccountController extends Controller
 
         Log::debug( 'updateSegmentationProfile validated: ', context: $validated);
 
-        return redirect('/');
+        // Log::debug('updateSegmentationProfile isDownload: ', [session()->get('saml2_is_download')]);
+
+        return redirect()->intended();
     }
 
     public function updateLanguage (Request $request, string $language): Mixed  {
@@ -142,7 +146,7 @@ class UserAccountController extends Controller
         Log::debug('language request', context: $request->all());
         $user = user();
         $validated = $this->validate($request, [
-            'language'         => ['string', 'max:15', 'alpha_dash'],
+            'language' => ['string', 'max:15', 'alpha_dash'],
         ]);
 
         Log::debug('language update', context: $validated);

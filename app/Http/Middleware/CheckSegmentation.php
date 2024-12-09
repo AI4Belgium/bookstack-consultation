@@ -2,6 +2,7 @@
 
 namespace BookStack\Http\Middleware;
 
+use BookStack\Entities\Queries\BookQueries;
 use BookStack\Users\Models\User;
 use Closure;
 use Illuminate\Support\Facades\Log;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Log;
  */
 class CheckSegmentation
 {
-    public function __construct()
+    public function __construct(protected BookQueries $bookQueries)
     {
     }
 
@@ -25,6 +26,7 @@ class CheckSegmentation
      */
     public function handle($request, Closure $next)
     {
+        Log::debug('CheckSegmentation isDownload: ', [session()->get('saml2_is_download')]);
         $veryWrongValue = 'very-wrong-value_2346$@##@$@#$@#$@#&&**(())';
         /** @var User $user */
         $user = auth()->user();
@@ -36,7 +38,24 @@ class CheckSegmentation
         foreach ($keys as $key) {
             $val = setting()->getForCurrentUser($key, $veryWrongValue);
             // Log::debug($key, ['val'=> $val, 'isEmpty' => $val === null || $val === '']);
+            session()->keep(['saml2_is_download']);
             if ($val === null || $val === '' || $val === $veryWrongValue) return redirect()->to('/segmentation');
+        }
+
+        // Check if the user is trying to download a book and redirect them to the book download page and remove the session value!!!
+        $isDownload = session()->pull('saml2_is_download');
+
+        if ($isDownload) {
+            $lang = $user->getLocale()->appLocale();
+            $books = $this->bookQueries->visibleForList()
+                ->whereRelation('tags', 'name', '=', 'lang')
+                ->whereRelation('tags', 'value', '=', $lang)
+                ->take(1)
+                ->get()->toArray();
+            Log::debug('CheckSegmentation isDownload: ', ['books' => $books]);
+            if (isset($books) && count($books) > 0) {
+                return redirect()->to('/books/' . $books[0]['slug'] . '/export/pdf');
+            }
         }
 
         return $next($request);
