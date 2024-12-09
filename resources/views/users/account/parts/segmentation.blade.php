@@ -43,7 +43,7 @@
     <div>
         <label class="setting-list-label" for="vat">{{ trans('segmentation.organisation.vat') }}<span class="tw-text-red-500 tw-font-bold">*</span>:</label>
         <div class="flex stretch-inputs">
-            <input type="text" name="vat" pattern="^BE0[1-9][0-9]{7}$|^0[1-9][0-9]{7}$" value="{{getValFromUserSettingOrOld('vat')}}" required />
+            <input type="text" name="vat" pattern="^(?:BE)?[01][0-9]{3}\.?[0-9]{3}\.?[0-9]{3}$" value="{{getValFromUserSettingOrOld('vat')}}" required />
         </div>
         @include('users.account.parts.error', ['name' => 'vat'])
     </div>
@@ -115,9 +115,8 @@
     @include('users.account.parts.segmentation-lang')
 
     <div>
-        <label component="custom-checkbox" class="toggle-switch @if($errors->has('is_expert')) text-neg @endif">
+        <label component="custom-checkbox" class="tw-mt-3 tw-flex tw-items-center tw-gap-3" @if($errors->has('is_expert')) text-neg @endif">
             <input type="checkbox" name="is_expert" value="1" @if(getValFromUserSettingOrOld('is_expert') === '1' ) checked @endif  @if($disabled ?? false) disabled="disabled" @endif>
-            <span tabindex="0" role="checkbox" aria-checked="{{ getValFromUserSettingOrOld('is_expert') === '1' ? 'true' : 'false' }}" class="custom-checkbox text-primary">@icon('check')</span>
             <span class="label">{{trans('segmentation.is_expert')}} <br/> <span class="tw-text-xs">{{ trans('segmentation.is_expert_notice') }} </span></span>
         </label>
     </div>
@@ -127,7 +126,7 @@
         @include('users.account.parts.segmentation-expertise')
     </div>
 
-    @include('users.account.parts.segmentation-be-member')
+    @include('users.account.parts.segmentation-be-member', ['id' => 'become_member_citizen'])
 </div>
 
 <div class="form-group text-right">
