@@ -27,7 +27,7 @@ class Localization
         if (!empty($lang)) {
             $userLocale = $this->localeManager->getLocalDefinition($lang);
             $user = user();
-            setting()->putUser($user,  'language', $lang);
+            setting()->putUser($user, 'language', $lang);
         }
         if (!isset($userLocale)) {
             $userLocale = $this->localeManager->getForUser(user());

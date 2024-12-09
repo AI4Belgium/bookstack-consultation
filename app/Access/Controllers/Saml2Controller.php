@@ -22,9 +22,11 @@ class Saml2Controller extends Controller
     public function login(Request $request)
     {
         $isDownload = $request->get('isDownload', false);
-        if ($isDownload === '1' || $isDownload === 'true' || $isDownload === true) $isDownload = true;
+        if ($isDownload === '1' || $isDownload === 'true' || $isDownload === true) {
+            $isDownload = true;
+        }
 
-        Log::debug('processAcs: ', context: [ 'isDownload' => $isDownload ]);
+        // Log::debug('processAcs: ', context: [ 'isDownload' => $isDownload ]);
         $loginDetails = $this->samlService->login();
         session()->flash('saml2_request_id', $loginDetails['id']);
         session()->flash('saml2_is_download', $isDownload);

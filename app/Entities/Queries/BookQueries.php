@@ -55,8 +55,8 @@ class BookQueries implements ProvidesEntityQueries
         $user = user();
         $query = $this->start()->scopes('visible')
             ->select(static::$listAttributes);
-        if (empty($user) || !$user->hasSystemRole('admin')) {
-            $langDefinition = !empty($user) ? $this->localeManager->getForUser($user) : $this->localeManager->getLocalDefinition('en');
+        if (empty($user) || !$user->hasSystemRole('admin')) { // @phpstan-ignore-line
+            $langDefinition = !empty($user) ? $this->localeManager->getForUser($user) : $this->localeManager->getLocalDefinition('en'); // @phpstan-ignore-line
             $query->whereRelation('tags', 'name', '=', 'lang')
                 ->whereRelation('tags', 'value', '=', $langDefinition->appLocale());
         }

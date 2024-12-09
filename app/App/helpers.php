@@ -142,10 +142,13 @@ function addQueryParamToUrl(string $key, string $value): string
     return $url;
 }
 
-function getValFromUserSettingOrOld(string $key, bool $isArray = false, mixed $default = null): Mixed {
+function getValFromUserSettingOrOld(string $key, bool $isArray = false, mixed $default = null): mixed
+{
     $wrongDefaultVal = '%%%%###$$$$%%%%####******@@@#@%#@!';
     $settingsVal = setting()->getForCurrentUser($key, $wrongDefaultVal);
-    if ($settingsVal === $wrongDefaultVal) return old($key, $default);
+    if ($settingsVal === $wrongDefaultVal) {
+        return old($key, $default);
+    }
     if ($isArray) {
         try {
             return json_decode($settingsVal);

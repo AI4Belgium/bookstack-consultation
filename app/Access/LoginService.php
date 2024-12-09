@@ -140,9 +140,13 @@ class LoginService
      */
     public function awaitingEmailConfirmation(User $user): bool
     {
-        if (empty($user->email)) return false;
-        Logger::debug('awaitingEmailConfirmation',
-            [ 'should' => $this->emailConfirmationService->confirmationRequired(), 'confirmed' => $user->email_confirmed, 'empty' => empty($user->email)]);
+        if (empty($user->email)) {
+            return false;
+        }
+        Logger::debug(
+            'awaitingEmailConfirmation',
+            [ 'should' => $this->emailConfirmationService->confirmationRequired(), 'confirmed' => $user->email_confirmed, 'empty' => empty($user->email)]
+        );
         return $this->emailConfirmationService->confirmationRequired() && !$user->email_confirmed;
     }
 

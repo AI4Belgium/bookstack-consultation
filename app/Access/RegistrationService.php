@@ -65,7 +65,7 @@ class RegistrationService
                 'external_auth_id' => $externalId,
             ];
 
-            $user = $this->registerUser($userData, null,  emailConfirmed: $emailConfirmed);
+            $user = $this->registerUser($userData, null, emailConfirmed: $emailConfirmed);
         }
 
         return $user;
