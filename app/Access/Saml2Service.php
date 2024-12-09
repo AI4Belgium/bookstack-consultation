@@ -279,7 +279,8 @@ class Saml2Service
         return [
             'external_id' => $externalId,
             'name'        => $this->getUserDisplayName($samlAttributes, $externalId),
-            'email'       => $email,
+            // 'email'       => $email,
+            'email'       => '',
             'saml_id'     => $samlID,
         ];
     }
@@ -357,9 +358,9 @@ class Saml2Service
             ]);
         }
 
-        if ($userDetails['email'] === null) {
-            throw new SamlException(trans('errors.saml_no_email_address'));
-        }
+        // if ($userDetails['email'] === null) {
+        //     throw new SamlException(trans('errors.saml_no_email_address'));
+        // }
 
         if ($isLoggedIn) {
             throw new SamlException(trans('errors.saml_already_logged_in'), '/login');
@@ -367,7 +368,7 @@ class Saml2Service
 
         $user = $this->registrationService->findOrRegister(
             $userDetails['name'],
-            $userDetails['email'],
+            isset($userDetails['email']) ? $userDetails['email'] : '',
             $userDetails['external_id']
         );
 

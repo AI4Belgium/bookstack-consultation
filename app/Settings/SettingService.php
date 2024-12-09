@@ -233,6 +233,11 @@ class SettingService
         return 'user:' . $userId . ':' . $key;
     }
 
+    public function removeForCurrentUser(string $key): void
+    {
+        $this->remove($this->userKey(user()->id, $key));
+    }
+
     /**
      * Removes a setting from the database.
      */

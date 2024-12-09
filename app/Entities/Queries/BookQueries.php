@@ -4,10 +4,17 @@ namespace BookStack\Entities\Queries;
 
 use BookStack\Entities\Models\Book;
 use BookStack\Exceptions\NotFoundException;
+use BookStack\Translation\LocaleDefinition;
 use Illuminate\Database\Eloquent\Builder;
+use BookStack\Translation\LocaleManager;
 
 class BookQueries implements ProvidesEntityQueries
 {
+    public function __construct(
+        protected LocaleManager $localeManager
+    ) {
+    }
+
     protected static array $listAttributes = [
         'id', 'slug', 'name', 'description',
         'created_at', 'updated_at', 'image_id', 'owned_by',
@@ -45,8 +52,15 @@ class BookQueries implements ProvidesEntityQueries
 
     public function visibleForList(): Builder
     {
-        return $this->start()->scopes('visible')
+        $user = user();
+        $query = $this->start()->scopes('visible')
             ->select(static::$listAttributes);
+        if (empty($user) || !$user->hasSystemRole('admin')) { // @phpstan-ignore-line
+            $langDefinition = !empty($user) ? $this->localeManager->getForUser($user) : $this->localeManager->getLocalDefinition('en'); // @phpstan-ignore-line
+            $query->whereRelation('tags', 'name', '=', 'lang')
+                ->whereRelation('tags', 'value', '=', $langDefinition->appLocale());
+        }
+        return $query;
     }
 
     public function visibleForListWithCover(): Builder

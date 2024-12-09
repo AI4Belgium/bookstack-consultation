@@ -31,6 +31,7 @@ return [
     'social_login' => 'Aanmelden via een sociaal netwerk',
     'social_registration' => 'Registratie via een sociaal netwerk',
     'social_registration_text' => 'Registreer en log in met een andere service.',
+    'login_and_download' => 'Inloggen & Downloaden',
 
     'register_thanks' => 'Bedankt voor het registreren!',
     'register_confirm' => 'Controleer je e-mail en klik op de bevestigingsknop om toegang te krijgen tot :appName.',

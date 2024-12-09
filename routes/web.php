@@ -26,7 +26,8 @@ Route::get('/licenses', [MetaController::class, 'licenses']);
 Route::get('/opensearch.xml', [MetaController::class, 'opensearch']);
 
 // Authenticated routes...
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'has-segmentation'])->group(function () {
+// Route::middleware(['auth'])->group(function () {
 
     // Secure images routing
     Route::get('/uploads/images/{path}', [UploadControllers\ImageController::class, 'showImage'])
@@ -236,19 +237,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/settings/users/{id}', [UserControllers\UserController::class, 'update']);
     Route::delete('/settings/users/{id}', [UserControllers\UserController::class, 'destroy']);
 
-    // User Account
-    Route::get('/my-account', [UserControllers\UserAccountController::class, 'redirect']);
-    Route::get('/my-account/profile', [UserControllers\UserAccountController::class, 'showProfile']);
-    Route::put('/my-account/profile', [UserControllers\UserAccountController::class, 'updateProfile']);
-    Route::get('/my-account/shortcuts', [UserControllers\UserAccountController::class, 'showShortcuts']);
-    Route::put('/my-account/shortcuts', [UserControllers\UserAccountController::class, 'updateShortcuts']);
-    Route::get('/my-account/notifications', [UserControllers\UserAccountController::class, 'showNotifications']);
-    Route::put('/my-account/notifications', [UserControllers\UserAccountController::class, 'updateNotifications']);
-    Route::get('/my-account/auth', [UserControllers\UserAccountController::class, 'showAuth']);
-    Route::put('/my-account/auth/password', [UserControllers\UserAccountController::class, 'updatePassword']);
-    Route::get('/my-account/delete', [UserControllers\UserAccountController::class, 'delete']);
-    Route::delete('/my-account', [UserControllers\UserAccountController::class, 'destroy']);
-
     // User Preference Endpoints
     Route::patch('/preferences/change-view/{type}', [UserControllers\UserPreferencesController::class, 'changeView']);
     Route::patch('/preferences/change-sort/{type}', [UserControllers\UserPreferencesController::class, 'changeSort']);
@@ -320,6 +308,27 @@ Route::post('/register/confirm/resend', [AccessControllers\ConfirmEmailControlle
 Route::get('/register/confirm/{token}', [AccessControllers\ConfirmEmailController::class, 'showAcceptForm']);
 Route::post('/register/confirm/accept', [AccessControllers\ConfirmEmailController::class, 'confirm'])->middleware('throttle:public');
 Route::post('/register', [AccessControllers\RegisterController::class, 'postRegister'])->middleware('throttle:public');
+
+// User account routes for authenticated users without email set or profile
+Route::middleware(['auth'])->group(function () {
+    Route::post('/segmentation', [UserControllers\UserAccountController::class, 'updateSegmentationProfile']);
+    Route::put('/segmentation', [UserControllers\UserAccountController::class, 'updateSegmentationProfile']);
+    // Route::put('/my-account/auth/email', [UserControllers\UserAccountController::class, 'updateEmail']);
+    Route::get('/segmentation', [UserControllers\UserAccountController::class, 'showSegmentationForm']);
+    // User Account
+    Route::get('/my-account', [UserControllers\UserAccountController::class, 'redirect']);
+    Route::get('/my-account/profile', [UserControllers\UserAccountController::class, 'showProfile']);
+    Route::put('/my-account/profile', [UserControllers\UserAccountController::class, 'updateProfile']);
+    Route::get('/my-account/segmentation)', [UserControllers\UserAccountController::class, 'showMyAccountSegmentationForm']);
+    Route::get('/my-account/shortcuts', [UserControllers\UserAccountController::class, 'showShortcuts']);
+    Route::put('/my-account/shortcuts', [UserControllers\UserAccountController::class, 'updateShortcuts']);
+    Route::get('/my-account/notifications', [UserControllers\UserAccountController::class, 'showNotifications']);
+    Route::put('/my-account/notifications', [UserControllers\UserAccountController::class, 'updateNotifications']);
+    Route::get('/my-account/auth', [UserControllers\UserAccountController::class, 'showAuth']);
+    Route::put('/my-account/auth/password', [UserControllers\UserAccountController::class, 'updatePassword']);
+    Route::get('/my-account/delete', [UserControllers\UserAccountController::class, 'delete']);
+    Route::delete('/my-account', [UserControllers\UserAccountController::class, 'destroy']);
+});
 
 // SAML routes
 Route::post('/saml2/login', [AccessControllers\Saml2Controller::class, 'login']);

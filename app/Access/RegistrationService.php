@@ -11,6 +11,7 @@ use BookStack\Users\Models\User;
 use BookStack\Users\UserRepo;
 use Exception;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class RegistrationService
 {
@@ -50,7 +51,7 @@ class RegistrationService
      *
      * @throws UserRegistrationException
      */
-    public function findOrRegister(string $name, string $email, string $externalId): User
+    public function findOrRegister(string $name, string $email, string $externalId, bool $emailConfirmed = false): User
     {
         $user = User::query()
             ->where('external_auth_id', '=', $externalId)
@@ -64,7 +65,7 @@ class RegistrationService
                 'external_auth_id' => $externalId,
             ];
 
-            $user = $this->registerUser($userData, null, false);
+            $user = $this->registerUser($userData, null, emailConfirmed: $emailConfirmed);
         }
 
         return $user;
@@ -108,7 +109,7 @@ class RegistrationService
         Theme::dispatch(ThemeEvents::AUTH_REGISTER, $authSystem, $newUser);
 
         // Start email confirmation flow if required
-        if ($this->emailConfirmationService->confirmationRequired() && !$emailConfirmed) {
+        if ($this->emailConfirmationService->confirmationRequired() && !$emailConfirmed && !empty($newUser->email)) {
             $newUser->save();
 
             try {

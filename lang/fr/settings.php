@@ -334,5 +334,21 @@ return [
         'zh_CN' => 'Chinois (simplifié)',
         'zh_TW' => 'Mandarin de Taïwan',
     ],
+    'account_type' => [
+        'citizen' => 'Citoyen',
+        'civil_society' => 'Soceité civile',
+        'private_sector' => 'Secteur privé',
+        'public_sector' => 'Secteur public',
+        'academic'=> 'Académique',
+    ],
+
+    'region_name' => 'Région',
+    'regions' => [
+        'bxl' => 'Bruxelles',
+        'vlg' => 'Flandre',
+        'wl' => 'Wallonie',
+    ],
+
+    'job_role' => 'Fonction',
     //!////////////////////////////////
 ];

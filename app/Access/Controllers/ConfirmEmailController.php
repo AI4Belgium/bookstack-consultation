@@ -11,6 +11,7 @@ use BookStack\Http\Controller;
 use BookStack\Users\UserRepo;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ConfirmEmailController extends Controller
 {
@@ -27,6 +28,8 @@ class ConfirmEmailController extends Controller
      */
     public function show()
     {
+
+        Log::info("ConfirmEmailController in show function");
         return view('auth.register-confirm');
     }
 

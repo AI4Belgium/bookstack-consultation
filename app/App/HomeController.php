@@ -9,13 +9,19 @@ use BookStack\Entities\Queries\QueryRecentlyViewed;
 use BookStack\Entities\Queries\QueryTopFavourites;
 use BookStack\Entities\Tools\PageContent;
 use BookStack\Http\Controller;
+use BookStack\Translation\LocaleManager;
 use BookStack\Util\SimpleListOptions;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redirect;
+use BookStack\Users\UserRepo;
 
 class HomeController extends Controller
 {
     public function __construct(
         protected EntityQueries $queries,
+        protected UserRepo $userRepo,
+        protected LocaleManager $localeManager
     ) {
     }
 

@@ -10,6 +10,7 @@
                     <h5>{{ trans('preferences.my_account') }}</h5>
                     <nav class="active-link-list in-sidebar">
                         <a href="{{ url('/my-account/profile') }}" class="{{ $category === 'profile' ? 'active' : '' }}">@icon('user') {{ trans('preferences.profile') }}</a>
+                        <!-- <a href="{{ url('/my-account/segmentation') }}" class="{{ $category === 'profile' ? 'active' : '' }}">@icon('more') {{ trans('segmentation.title') }}</a> -->
                         <a href="{{ url('/my-account/auth') }}" class="{{ $category === 'auth' ? 'active' : '' }}">@icon('security') {{ trans('preferences.auth') }}</a>
                         <a href="{{ url('/my-account/shortcuts') }}" class="{{ $category === 'shortcuts' ? 'active' : '' }}">@icon('shortcuts') {{ trans('preferences.shortcuts_interface') }}</a>
                         @if(userCan('receive-notifications'))

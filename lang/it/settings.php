@@ -334,5 +334,12 @@ return [
         'zh_CN' => 'Cinese semplificato',
         'zh_TW' => 'Cinese tradizionale',
     ],
+    'account_type' => [
+        'citizen' => 'Citizen',
+        'civil_society' => 'Civil Society',
+        'private_sector' => 'Private sector',
+        'public_sector' => 'Public sector',
+        'academic'=> 'Academic',
+    ],
     //!////////////////////////////////
 ];

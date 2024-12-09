@@ -1,6 +1,11 @@
 <header id="header" component="header-mobile-toggle" class="primary-background px-xl grid print-hidden">
     <div class="flex-container-row justify-space-between gap-s items-center">
-        @include('layouts.parts.header-logo')
+        <div class="tw-flex tw-items-center tw-gap-1">
+            @include('layouts.parts.header-logo')
+            @foreach(['en', 'fr', 'nl'] as $locale)
+                <a href="{{ addQueryParamToUrl('lang', $locale) }}" class="tw-capitalize {{ app()->getLocale() === $locale ? 'tw-underline' : '' }}">{{ $locale }}</a>
+            @endforeach
+        </div>
         <div class="hide-over-l py-s">
             <button type="button"
                     refs="header-mobile-toggle@toggle"

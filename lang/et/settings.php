@@ -334,5 +334,12 @@ return [
         'zh_CN' => 'Hiina (lihtsustatud)',
         'zh_TW' => 'Hiina (traditsiooniline)',
     ],
+    'account_type' => [
+        'citizen' => 'Citizen',
+        'civil_society' => 'Civil Society',
+        'private_sector' => 'Private sector',
+        'public_sector' => 'Public sector',
+        'academic'=> 'Academic',
+    ],
     //!////////////////////////////////
 ];

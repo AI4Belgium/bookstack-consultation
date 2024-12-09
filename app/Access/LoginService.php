@@ -2,6 +2,7 @@
 
 namespace BookStack\Access;
 
+use AWS\CRT\Log;
 use BookStack\Access\Mfa\MfaSession;
 use BookStack\Activity\ActivityType;
 use BookStack\Exceptions\LoginAttemptException;
@@ -10,6 +11,7 @@ use BookStack\Facades\Activity;
 use BookStack\Facades\Theme;
 use BookStack\Theming\ThemeEvents;
 use BookStack\Users\Models\User;
+use Illuminate\Support\Facades\Log as Logger;
 use Exception;
 
 class LoginService
@@ -138,6 +140,13 @@ class LoginService
      */
     public function awaitingEmailConfirmation(User $user): bool
     {
+        if (empty($user->email)) {
+            return false;
+        }
+        Logger::debug(
+            'awaitingEmailConfirmation',
+            [ 'should' => $this->emailConfirmationService->confirmationRequired(), 'confirmed' => $user->email_confirmed, 'empty' => empty($user->email)]
+        );
         return $this->emailConfirmationService->confirmationRequired() && !$user->email_confirmed;
     }
 

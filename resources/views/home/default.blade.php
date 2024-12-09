@@ -16,7 +16,7 @@
     <div class="container" id="home-default">
         <div class="grid third gap-x-xxl no-row-gap">
             <div>
-                @if(count($draftPages) > 0)
+                <!-- @if(count($draftPages) > 0)
                     <div id="recent-drafts" class="card mb-xl">
                         <h3 class="card-title">{{ trans('entities.my_recent_drafts') }}</h3>
                         <div class="px-m">
@@ -34,11 +34,11 @@
                         'emptyText' => auth()->check() ? trans('entities.no_pages_viewed') : trans('entities.books_empty')
                         ])
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <div>
-                @if(count($favourites) > 0)
+                <!-- @if(count($favourites) > 0)
                     <div id="top-favourites" class="card mb-xl">
                         <h3 class="card-title">{{ trans('entities.my_most_viewed_favourites') }}</h3>
                         <div class="px-m">
@@ -63,7 +63,7 @@
                     @if(count($recentlyUpdatedPages) > 0)
                         <a href="{{ url("/pages/recently-updated") }}" class="card-footer-link">{{ trans('common.view_all') }}</a>
                     @endif
-                </div>
+                </div> -->
             </div>
 
             <div>

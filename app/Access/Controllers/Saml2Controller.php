@@ -6,6 +6,7 @@ use BookStack\Access\Saml2Service;
 use BookStack\Http\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class Saml2Controller extends Controller
 {
@@ -18,11 +19,17 @@ class Saml2Controller extends Controller
     /**
      * Start the login flow via SAML2.
      */
-    public function login()
+    public function login(Request $request)
     {
+        $isDownload = $request->get('isDownload', false);
+        if ($isDownload === '1' || $isDownload === 'true' || $isDownload === true) {
+            $isDownload = true;
+        }
+
+        // Log::debug('processAcs: ', context: [ 'isDownload' => $isDownload ]);
         $loginDetails = $this->samlService->login();
         session()->flash('saml2_request_id', $loginDetails['id']);
-
+        session()->flash('saml2_is_download', $isDownload);
         return redirect($loginDetails['url']);
     }
 
@@ -108,6 +115,7 @@ class Saml2Controller extends Controller
             $samlResponse = decrypt(cache()->pull($cacheKey));
         } catch (\Exception $exception) {
         }
+
         $requestId = session()->pull('saml2_request_id', null);
 
         if (empty($acsId) || empty($samlResponse)) {
@@ -122,7 +130,7 @@ class Saml2Controller extends Controller
 
             return redirect('/login');
         }
-
+        session()->keep(['saml2_is_download']);
         return redirect()->intended();
     }
 }
