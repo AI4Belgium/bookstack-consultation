@@ -5,32 +5,30 @@
 @stop
 
 @section('left')
-    @if(userCan('book-create-all'))
-        @if($recents)
-            <div id="recents" class="mb-xl">
-                <h5>{{ trans('entities.recently_viewed') }}</h5>
-                @include('entities.list', ['entities' => $recents, 'style' => 'compact'])
-            </div>
-        @endif
-
-        <div id="popular" class="mb-xl">
-            <h5>{{ trans('entities.books_popular') }}</h5>
-            @if(count($popular) > 0)
-                @include('entities.list', ['entities' => $popular, 'style' => 'compact'])
-            @else
-                <p class="text-muted pb-l mb-none">{{ trans('entities.books_popular_empty') }}</p>
-            @endif
-        </div>
-
-        <div id="new" class="mb-xl">
-            <h5>{{ trans('entities.books_new') }}</h5>
-            @if(count($popular) > 0)
-                @include('entities.list', ['entities' => $new, 'style' => 'compact'])
-            @else
-                <p class="text-muted pb-l mb-none">{{ trans('entities.books_new_empty') }}</p>
-            @endif
+    @if($recents)
+        <div id="recents" class="mb-xl">
+            <h5>{{ trans('entities.recently_viewed') }}</h5>
+            @include('entities.list', ['entities' => $recents, 'style' => 'compact'])
         </div>
     @endif
+
+    <div id="popular" class="mb-xl">
+        <h5>{{ trans('entities.books_popular') }}</h5>
+        @if(count($popular) > 0)
+            @include('entities.list', ['entities' => $popular, 'style' => 'compact'])
+        @else
+            <p class="text-muted pb-l mb-none">{{ trans('entities.books_popular_empty') }}</p>
+        @endif
+    </div>
+
+    <div id="new" class="mb-xl">
+        <h5>{{ trans('entities.books_new') }}</h5>
+        @if(count($popular) > 0)
+            @include('entities.list', ['entities' => $new, 'style' => 'compact'])
+        @else
+            <p class="text-muted pb-l mb-none">{{ trans('entities.books_new_empty') }}</p>
+        @endif
+    </div>
 @stop
 
 @section('right')
@@ -51,6 +49,13 @@
                 <span>@icon('tag')</span>
                 <span>{{ trans('entities.tags_view_tags') }}</span>
             </a>
+
+            @if(userCan('content-import'))
+                <a href="{{ url('/import') }}" class="icon-list-item">
+                    <span>@icon('upload')</span>
+                    <span>{{ trans('entities.import') }}</span>
+                </a>
+            @endif
         </div>
     </div>
 

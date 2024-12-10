@@ -5,7 +5,7 @@
 @stop
 
 @section('left')
-    <!-- @include('home.parts.sidebar') -->
+    @include('home.parts.sidebar')
 @stop
 
 @section('right')
