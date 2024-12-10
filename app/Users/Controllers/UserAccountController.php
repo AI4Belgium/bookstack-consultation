@@ -72,9 +72,7 @@ class UserAccountController extends Controller
     public function updateSegmentationProfile(Request $request)
     {
         $this->preventAccessInDemoMode();
-
         session()->keep(['saml2_is_download']);
-
         $data = $request->all();
         Log::debug('data', $data);
 
@@ -139,7 +137,7 @@ class UserAccountController extends Controller
             }
             setting()->putForCurrentUser($k, $v);
         }
-
+        session()->keep(['saml2_is_download']);
         // Log::debug( 'updateSegmentationProfile validated: ', context: $validated);
         // Log::debug('updateSegmentationProfile isDownload: ', [session()->get('saml2_is_download')]);
         return redirect()->intended();
