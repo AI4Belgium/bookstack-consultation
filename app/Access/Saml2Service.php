@@ -382,6 +382,8 @@ class Saml2Service
 
         $this->loginService->login($user, 'saml2');
 
+        session()->keep(['saml2_is_download']);
+
         return $user;
     }
 }

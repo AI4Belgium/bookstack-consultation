@@ -157,26 +157,24 @@
 
     @include('entities.search-form', ['label' => trans('entities.books_search_this')])
 
-    @if(userCan('book-create-all'))
-        @if($book->tags->count() > 0)
-            <div class="mb-xl">
-                @include('entities.tag-list', ['entity' => $book])
-            </div>
-        @endif
+    @if($book->tags->count() > 0)
+        <div class="mb-xl">
+            @include('entities.tag-list', ['entity' => $book])
+        </div>
+    @endif
 
-        @if(count($bookParentShelves) > 0)
-            <div class="actions mb-xl">
-                <h5>{{ trans('entities.shelves') }}</h5>
-                @include('entities.list', ['entities' => $bookParentShelves, 'style' => 'compact'])
-            </div>
-        @endif
+    @if(count($bookParentShelves) > 0)
+        <div class="actions mb-xl">
+            <h5>{{ trans('entities.shelves') }}</h5>
+            @include('entities.list', ['entities' => $bookParentShelves, 'style' => 'compact'])
+        </div>
+    @endif
 
-        @if(count($activity) > 0)
-            <div id="recent-activity" class="mb-xl">
-                <h5>{{ trans('entities.recent_activity') }}</h5>
-                @include('common.activity-list', ['activity' => $activity])
-            </div>
-        @endif
+    @if(count($activity) > 0)
+        <div id="recent-activity" class="mb-xl">
+            <h5>{{ trans('entities.recent_activity') }}</h5>
+            @include('common.activity-list', ['activity' => $activity])
+        </div>
     @endif
 @stop
 
