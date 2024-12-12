@@ -19,7 +19,10 @@
     <script src="https://cdn.tailwindcss.com" nonce="{{ $cspNonce }}"></script>
     <script nonce="{{ $cspNonce }}">
         tailwind.config = {
-            prefix: 'tw-'
+            prefix: 'tw-',
+            corePlugins: {
+                preflight: false
+            },
         }
     </script>
 </head>
